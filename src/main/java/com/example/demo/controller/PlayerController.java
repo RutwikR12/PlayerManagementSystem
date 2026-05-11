@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,5 +48,11 @@ public class PlayerController {
 	public ResponseEntity<String> updatePlayer(@PathVariable int id, @RequestBody PlayerDto playerDto) {
 		  playerService.updatePlayer(id, playerDto);
 		return new ResponseEntity<String>("Player Details updated sucessfully",HttpStatus.OK);
+	}
+	
+	@GetMapping("players")
+	  public ResponseEntity<List<Player>> getAllPlayers() {
+		List<Player> allPlayers = playerService.getPlayers();
+		return new ResponseEntity<List<Player>>(allPlayers,HttpStatus.OK);
 	}
 }

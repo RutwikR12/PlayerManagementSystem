@@ -1,5 +1,7 @@
 package com.example.demo.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.PlayerDto;
@@ -52,6 +54,11 @@ public class PlayerServiceImpl implements PlayerService{
 		player.setMobileNo(playerDto.getMobileNo());
 		player.setSport(playerDto.getSport());
 		return playerRepository.save(player);
+	}
+
+	@Override
+	public List<Player> getPlayers() {
+		return playerRepository.findAll();
 	}
 	
 	
