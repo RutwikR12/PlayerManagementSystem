@@ -29,6 +29,27 @@ public class PlayerServiceImpl implements PlayerService{
 		player.setState(playerDto.getState());
 		player.setMobileNo(playerDto.getMobileNo());
 		player.setSport(playerDto.getSport());
+		
+		if(playerDto.getName().trim().isEmpty()) {
+			throw new RuntimeException("Enter a Valid Name");
+		}
+		
+		if(playerDto.getMobileNo().length()!=10) {
+			throw new RuntimeException("Mobile Number should be of 10 digits");
+		}
+		
+	   List<Player> players = playerRepository.findAll();
+	   
+	   for(Player p : players) {
+		   if(p.getEmail().equals(playerDto.getEmail())) {
+			   throw new RuntimeException("Email already exists");
+		   }
+		   
+		   if(p.getMobileNo().equals(playerDto.getMobileNo())) {
+			   throw new RuntimeException("Mobile Number already exists");
+		   }
+	   }
+		
 		playerRepository.save(player);
 	}
 
@@ -59,7 +80,5 @@ public class PlayerServiceImpl implements PlayerService{
 	@Override
 	public List<Player> getPlayers() {
 		return playerRepository.findAll();
-	}
-	
-	
+	}	
 }

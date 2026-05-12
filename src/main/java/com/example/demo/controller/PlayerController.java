@@ -28,8 +28,13 @@ public class PlayerController {
 	
 	@PostMapping("player") 
 	public ResponseEntity<String> addPlayer(@RequestBody PlayerDto playerDto) {
+		try {
 		playerService.savePlayer(playerDto);
 		return new ResponseEntity<String>("Player Addedd Sucesfully",HttpStatus.CREATED);
+		
+		} catch(RuntimeException re) {
+			return new ResponseEntity<String>(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("player/{id}") 
