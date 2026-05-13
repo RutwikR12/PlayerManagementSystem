@@ -13,8 +13,4 @@ public class PlayerDto {
      private String state;
      private String city;
      private String sport;
-	 public String getName() {
-		 return name;
-	 }
-	
 }

@@ -1,6 +1,9 @@
 package com.example.demo.serviceImpl;
 
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -30,13 +33,21 @@ public class PlayerServiceImpl implements PlayerService{
 		player.setMobileNo(playerDto.getMobileNo());
 		player.setSport(playerDto.getSport());
 		
-		if(playerDto.getName().trim().isEmpty()) {
+		if(playerDto.getName().trim().isEmpty()) 
 			throw new RuntimeException("Enter a Valid Name");
-		}
 		
-		if(playerDto.getMobileNo().length()!=10) {
+		
+		if(playerDto.getMobileNo().length()!=10) 
 			throw new RuntimeException("Mobile Number should be of 10 digits");
-		}
+		
+		if(!playerDto.getEmail().contains("@") || !playerDto.getEmail().contains(".com"))
+			throw new RuntimeException("Invalid Email Format!");
+		
+		if(playerDto.getAge()<=1 || playerDto.getAge()>=70)
+			throw new RuntimeException("Enter Valid Age");
+		
+		if(playerDto.getDateOfBirth().isAfter(LocalDate.now()))
+			throw new RuntimeException("Enter Valid Date of Birth");
 		
 	   List<Player> players = playerRepository.findAll();
 	   
@@ -55,17 +66,31 @@ public class PlayerServiceImpl implements PlayerService{
 
 	@Override
 	public Player getPlayer(int id) {
-		return playerRepository.findById(id).get();
+		Optional<Player> playerId = playerRepository.findById(id);
+	    if(playerId.isEmpty()) 
+	    	throw new RuntimeException("Player not found");
+	   
+	    return playerId.get();
 	}
 
 	@Override
 	public void removePlayer(int id) {
+		Optional<Player> playerById = playerRepository.findById(id);
+		if(playerById.isEmpty()) 
+			throw new RuntimeException("Player not found");
+		
 		playerRepository.deleteById(id);
 	}
 
 	@Override
 	public Player updatePlayer(int id, PlayerDto playerDto) {
-		Player player = playerRepository.findById(id).get();
+		Optional<Player> playerById = playerRepository.findById(id);
+
+		if(playerById.isEmpty()) {
+		    throw new RuntimeException("Player not found");
+		}
+
+		Player player = playerById.get();
 		player.setName(playerDto.getName());
 		player.setAge(playerDto.getAge());
 		player.setEmail(playerDto.getEmail());
@@ -74,6 +99,22 @@ public class PlayerServiceImpl implements PlayerService{
 		player.setState(playerDto.getState());
 		player.setMobileNo(playerDto.getMobileNo());
 		player.setSport(playerDto.getSport());
+		
+		if(playerDto.getName().trim().isEmpty())
+			throw new RuntimeException("Name cannot be empty");
+		
+		if(playerDto.getMobileNo().length()!=10)
+			throw new RuntimeException("Mobile Number should be of 10digits!");
+		
+		if(!playerDto.getEmail().contains("@") || !playerDto.getEmail().contains(".com"))
+			throw new RuntimeException("Invalid Email Format!");
+		
+		if(playerDto.getAge()<=1 || playerDto.getAge()>=70)
+			throw new RuntimeException("Enter Valid Age");
+		
+		if(playerDto.getDateOfBirth().isAfter(LocalDate.now()))
+			throw new RuntimeException("Enter Valid Date of Birth");
+		
 		return playerRepository.save(player);
 	}
 

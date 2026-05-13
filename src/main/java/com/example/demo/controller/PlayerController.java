@@ -39,20 +39,33 @@ public class PlayerController {
 	
 	@GetMapping("player/{id}") 
 	public ResponseEntity<Player> getPlayer(@PathVariable int id) {
+		try {
 		Player playerId = playerService.getPlayer(id);
 		return new ResponseEntity<Player>(playerId,HttpStatus.OK);
+		
+		}catch(RuntimeException re) {
+			return new ResponseEntity(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@DeleteMapping("player/{id}") 
 	public ResponseEntity<String> deletePlayer(@PathVariable int id) {
+		try {
 		playerService.removePlayer(id);
 		return new ResponseEntity<String>("Player Deleted Successfully",HttpStatus.OK);
+		}catch(RuntimeException re) {
+			return new ResponseEntity<String>(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("update/{id}") 
 	public ResponseEntity<String> updatePlayer(@PathVariable int id, @RequestBody PlayerDto playerDto) {
+		try {
 		  playerService.updatePlayer(id, playerDto);
-		return new ResponseEntity<String>("Player Details updated sucessfully",HttpStatus.OK);
+		return new ResponseEntity<String>("Player Details updated sucessfully",HttpStatus.OK); 
+		}catch(RuntimeException re) {
+			return new ResponseEntity<String>(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("players")
