@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.PlayerDto;
 import com.example.demo.entity.Player;
+import com.example.demo.exception.PlayerServiceException;
 import com.example.demo.service.PlayerService;
 
 @RestController
@@ -32,8 +33,8 @@ public class PlayerController {
 		playerService.savePlayer(playerDto);
 		return new ResponseEntity<String>("Player Addedd Sucesfully",HttpStatus.CREATED);
 		
-		} catch(RuntimeException re) {
-			return new ResponseEntity<String>(re.getMessage(),HttpStatus.BAD_REQUEST);
+		} catch(PlayerServiceException playerException) {
+			return new ResponseEntity<String>(playerException.getErrMessage(),playerException.getHttpStatus());
 		}
 	}
 	
@@ -43,8 +44,8 @@ public class PlayerController {
 		Player playerId = playerService.getPlayer(id);
 		return new ResponseEntity<Player>(playerId,HttpStatus.OK);
 		
-		}catch(RuntimeException re) {
-			return new ResponseEntity(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}catch(PlayerServiceException playerException) {
+			return new ResponseEntity(playerException.getErrMessage(),playerException.getHttpStatus());
 		}
 	}
 	
@@ -53,8 +54,8 @@ public class PlayerController {
 		try {
 		playerService.removePlayer(id);
 		return new ResponseEntity<String>("Player Deleted Successfully",HttpStatus.OK);
-		}catch(RuntimeException re) {
-			return new ResponseEntity<String>(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}catch(PlayerServiceException playerException) {
+			return new ResponseEntity<String>(playerException.getErrMessage(),playerException.getHttpStatus());
 		}
 	}
 	
@@ -63,8 +64,8 @@ public class PlayerController {
 		try {
 		  playerService.updatePlayer(id, playerDto);
 		return new ResponseEntity<String>("Player Details updated sucessfully",HttpStatus.OK); 
-		}catch(RuntimeException re) {
-			return new ResponseEntity<String>(re.getMessage(),HttpStatus.BAD_REQUEST);
+		}catch(PlayerServiceException playerException) {
+			return new ResponseEntity<String>(playerException.getErrMessage(),playerException.getHttpStatus());
 		}
 	}
 	
