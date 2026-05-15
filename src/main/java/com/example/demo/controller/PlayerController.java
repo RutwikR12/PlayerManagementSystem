@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.PlayerDto;
 import com.example.demo.entity.Player;
-import com.example.demo.exception.PlayerServiceException;
 import com.example.demo.service.PlayerService;
 
 @RestController
@@ -29,44 +28,26 @@ public class PlayerController {
 	
 	@PostMapping("player") 
 	public ResponseEntity<String> addPlayer(@RequestBody PlayerDto playerDto) {
-		try {
 		playerService.savePlayer(playerDto);
 		return new ResponseEntity<String>("Player Addedd Sucesfully",HttpStatus.CREATED);
-		
-		} catch(PlayerServiceException playerException) {
-			return new ResponseEntity<String>(playerException.getErrMessage(),playerException.getHttpStatus());
-		}
 	}
 	
 	@GetMapping("player/{id}") 
 	public ResponseEntity<Player> getPlayer(@PathVariable int id) {
-		try {
 		Player playerId = playerService.getPlayer(id);
 		return new ResponseEntity<Player>(playerId,HttpStatus.OK);
-		
-		}catch(PlayerServiceException playerException) {
-			return new ResponseEntity(playerException.getErrMessage(),playerException.getHttpStatus());
-		}
 	}
 	
 	@DeleteMapping("player/{id}") 
 	public ResponseEntity<String> deletePlayer(@PathVariable int id) {
-		try {
 		playerService.removePlayer(id);
 		return new ResponseEntity<String>("Player Deleted Successfully",HttpStatus.OK);
-		}catch(PlayerServiceException playerException) {
-			return new ResponseEntity<String>(playerException.getErrMessage(),playerException.getHttpStatus());
-		}
 	}
 	
 	@PutMapping("update/{id}") 
 	public ResponseEntity<String> updatePlayer(@PathVariable int id, @RequestBody PlayerDto playerDto) {
-		try {
 		  playerService.updatePlayer(id, playerDto);
 		return new ResponseEntity<String>("Player Details updated sucessfully",HttpStatus.OK); 
-		}catch(PlayerServiceException playerException) {
-			return new ResponseEntity<String>(playerException.getErrMessage(),playerException.getHttpStatus());
-		}
 	}
 	
 	@GetMapping("players")
