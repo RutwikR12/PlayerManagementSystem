@@ -32,13 +32,13 @@ public class PlayerController {
 		return new ResponseEntity<String>("Player Addedd Sucesfully",HttpStatus.CREATED);
 	}
 	
-	@GetMapping("player/{id}") 
+	@GetMapping("player/id/{id}") 
 	public ResponseEntity<Player> getPlayer(@PathVariable int id) {
 		Player playerId = playerService.getPlayer(id);
 		return new ResponseEntity<Player>(playerId,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("player/{id}") 
+	@DeleteMapping("delete/{id}") 
 	public ResponseEntity<String> deletePlayer(@PathVariable int id) {
 		playerService.removePlayer(id);
 		return new ResponseEntity<String>("Player Deleted Successfully",HttpStatus.OK);
@@ -55,4 +55,17 @@ public class PlayerController {
 		List<Player> allPlayers = playerService.getPlayers();
 		return new ResponseEntity<List<Player>>(allPlayers,HttpStatus.OK);
 	}
+	
+	@GetMapping("name/{name}")
+     public ResponseEntity<List<Player>> getPlayersByName(@PathVariable String name) {
+		List<Player> playerName = playerService.getPlayersByName(name);
+		return new ResponseEntity<List<Player>>(playerName,HttpStatus.OK);
+	}
+	
+	@GetMapping("sport/{sport}")
+    public ResponseEntity<List<Player>> getPlayersBySport(@PathVariable String sport) {
+		List<Player> playerSport = playerService.getPlayersBySport(sport);
+		return new ResponseEntity<List<Player>>(playerSport,HttpStatus.OK);
+	}
+	
 }

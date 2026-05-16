@@ -123,5 +123,23 @@ public class PlayerServiceImpl implements PlayerService{
 	@Override
 	public List<Player> getPlayers() {
 		return playerRepository.findAll();
+	}
+
+	@Override
+	public List<Player> getPlayersByName(String name)  {
+	 List<Player> playerName = playerRepository.getPlayersByName(name);
+	 if(playerName.isEmpty()) 
+		 throw new PlayerServiceException("Player not found",HttpStatus.BAD_REQUEST);
+	 
+	 return playerName;
+     }
+	
+	@Override
+	public List<Player> getPlayersBySport(String sport) {
+	 List<Player> playerState =  playerRepository.getPlayersBySport(sport);
+	 if(playerState.isEmpty())
+		 throw new PlayerServiceException("Player not found",HttpStatus.BAD_REQUEST);
+	 
+	 return playerState;
 	}	
 }

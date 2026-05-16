@@ -10,13 +10,13 @@ import com.example.demo.exception.PlayerServiceException;
 @ControllerAdvice
 public class GlobalExceptionHandller {
 
-	@ExceptionHandler(exception = PlayerServiceException.class)
+	@ExceptionHandler(PlayerServiceException.class)
 	public ResponseEntity<String> handlePlayerServiceException(PlayerServiceException pe) {
 		System.out.println("Player Service Exception handlled by Global Exception Handller");
-		return new ResponseEntity<String>(pe.getErrMessage(),pe.getHttpStatus());
+		return new ResponseEntity<String>(pe.getMessage(),pe.getHttpStatus());
 	}
 	 
-	@ExceptionHandler(exception = Exception.class)
+	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleException(Exception e) {
 		System.out.println("Exception handlled by Global Exception Handller");
 		return new ResponseEntity<String>("Something went wrong",HttpStatus.BAD_REQUEST);

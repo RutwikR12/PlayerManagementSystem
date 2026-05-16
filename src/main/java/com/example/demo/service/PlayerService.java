@@ -12,4 +12,6 @@ public interface PlayerService {
 	public void removePlayer(int id);
 	public Player updatePlayer(int id, PlayerDto playerDto);
 	public List<Player> getPlayers();
+	public  List<Player> getPlayersByName(String name);
+	public  List<Player> getPlayersBySport(String sport);
 }
